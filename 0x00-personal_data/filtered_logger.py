@@ -31,10 +31,12 @@ class RedactingFormatter(logging.Formatter):
     SEPARATOR = ";"
 
     def __init__(self, fields: List[str]):
+        '''initializing the instance'''
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.fields = fields
 
     def format(self, record: logging.LogRecord) -> str:
+        '''formatting record'''
         log = filter_datum(
             self.fields, self.REDACTION, record.getMessage(), self.SEPARATOR)
         record.msg = log
