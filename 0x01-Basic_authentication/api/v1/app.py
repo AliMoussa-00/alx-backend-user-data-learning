@@ -4,6 +4,7 @@ Route module for the API
 """
 from api.v1.auth.auth import Auth
 from os import getenv
+from api.v1.auth.basic_auth import BasicAuth
 from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
 from flask_cors import (CORS, cross_origin)
@@ -17,8 +18,12 @@ auth = None
 
 
 if os.getenv("AUTH_TYPE", None) is not None:
-    if os.getenv("AUTH_TYPE") == 'auth':
+    auth_type = os.getenv("AUTH_TYPE")
+
+    if auth_type == 'auth':
         auth = Auth()
+    elif auth_type == 'basic_auth':
+        auth = BasicAuth()
 
 
 @app.before_request
