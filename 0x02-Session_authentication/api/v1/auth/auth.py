@@ -2,6 +2,7 @@
 '''a Module to handle Authentication'''
 
 
+import os
 from typing import List, TypeVar
 from flask import request
 
@@ -10,7 +11,11 @@ class Auth:
     '''class to manage the API authentication.'''
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-        '''check if a path requires authentication'''
+        '''check if a path requires authentication
+        Return:
+            - True: if path require authentication
+            - False: if path does not require authentication
+        '''
         if path is None:
             return True
         if excluded_paths is None or excluded_paths == []:
@@ -40,5 +45,15 @@ class Auth:
         return request.headers.get('Authorization')
 
     def current_user(self, request=None) -> TypeVar('User'):
-        ''' '''
+        ''' To override
+        get the current user, based on the authentication type
+        '''
         return None
+
+    def session_cookie(self, request=None):
+        '''returns a cookie value from a request'''
+        if request is None:
+            return None
+
+        _my_session_id = os.getenv('SESSION_NAME')
+        return request.cookies.get(_my_session_id)
