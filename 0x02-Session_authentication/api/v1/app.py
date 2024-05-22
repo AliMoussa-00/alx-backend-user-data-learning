@@ -6,6 +6,7 @@ from api.v1.auth.auth import Auth
 from os import getenv
 from api.v1.auth.basic_auth import BasicAuth
 from api.v1.auth.session_auth import SessionAuth
+from api.v1.auth.session_exp_auth import SessionExpAuth
 from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
 from flask_cors import (CORS, cross_origin)
@@ -27,6 +28,8 @@ if os.getenv("AUTH_TYPE", None) is not None:
         auth = BasicAuth()
     elif auth_type == 'session_auth':
         auth = SessionAuth()
+    elif auth_type == 'session_exp_auth':
+        auth = SessionExpAuth()
 
 
 @app.before_request

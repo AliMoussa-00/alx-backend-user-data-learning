@@ -3,7 +3,7 @@
 """
 
 import os
-from flask import jsonify, make_response, request
+from flask import abort, jsonify, make_response, request
 from api.v1.views import app_views
 from models.user import User
 
@@ -53,3 +53,19 @@ def login_user() -> str:
         response.set_cookie(session_name, session_id)
 
     return response
+
+
+@app_views.route('/auth_session/logout',
+                 methods=['DELETE'], strict_slashes=False)
+def logout() -> str:
+    """ DELETE /api/v1/auth_session/logout
+    Return:
+      - empty JSON if the User has been correctly logged out
+      - 404 if logging out failed
+    """
+    from api.v1.app import auth
+
+    if auth.destroy_session(request) == False:
+        abort(404)
+
+    return jsonify({}), 200
