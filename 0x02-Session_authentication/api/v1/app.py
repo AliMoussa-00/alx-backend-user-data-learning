@@ -71,7 +71,7 @@ def unauthorized_request(error) -> str:
 
 @app.errorhandler(403)
 def forbidden_resource(error) -> str:
-    ''''''
+    '''forbidden resource'''
     return jsonify({"error": "Forbidden"}), 403
 
 
