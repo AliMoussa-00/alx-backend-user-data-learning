@@ -2,7 +2,7 @@
 '''Flask app file'''
 
 
-from flask import Flask, abort, jsonify, make_response, redirect, request, url_for
+from flask import Flask, abort, jsonify, make_response, redirect, request
 
 from auth import Auth
 
@@ -38,7 +38,7 @@ def login() -> str:
     '''
     email = request.form.get('email')
     password = request.form.get('password')
-    if AUTH.valid_login(email, password) == True:
+    if AUTH.valid_login(email, password):
         session_id = AUTH.create_session(email)
         if session_id:
             re = make_response(

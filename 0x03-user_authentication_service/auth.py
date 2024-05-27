@@ -70,7 +70,7 @@ class Auth:
         '''
         user = self._db.find_user_by(email=email)
         if user:
-            if bcrypt.checkpw(password.encode(), user.hashed_password) == True:
+            if bcrypt.checkpw(password.encode(), user.hashed_password):
                 return True
 
         return False
