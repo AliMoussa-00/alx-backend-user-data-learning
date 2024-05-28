@@ -151,11 +151,11 @@ class Auth:
             - password: the new password for the user
         Return: None
         '''
+        try:
+            user = self._db.find_user_by(reset_token=reset_token)
 
-        user = self._db.find_user_by(reset_token=reset_token)
-        if not user:
+            self._db.update_user(user.id,
+                                 hashed_password=_hash_password(password),
+                                 reset_token=None)
+        except NoResultFound:
             raise ValueError('no user found for the passed reset_token')
-
-        self._db.update_user(user.id,
-                             hashed_password=_hash_password(password),
-                             reset_token=None)
