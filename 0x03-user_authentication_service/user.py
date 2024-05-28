@@ -2,6 +2,7 @@
 '''Defining the user model'''
 
 
+from typing import Any, Dict, Tuple
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -23,7 +24,8 @@ class User(Base):
     session_id = Column(String, nullable=True)
     reset_token = Column(String, nullable=True)
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args: Tuple[Any, ...],
+                 **kwargs: Dict[str, Any]) -> None:
         '''Initializing the user instance'''
 
         if kwargs:
