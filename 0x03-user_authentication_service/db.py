@@ -61,7 +61,8 @@ class DB:
         Return:
             the first row found in the users
         '''
-
+        if not kwargs:
+            raise InvalidRequestError
         for k in kwargs.keys():
             if not hasattr(User, k):
                 raise InvalidRequestError
