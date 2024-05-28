@@ -23,11 +23,3 @@ class User(Base):
     hashed_password = Column(String(250), nullable=False)
     session_id = Column(String(250), nullable=True)
     reset_token = Column(String(250), nullable=True)
-
-    def __init__(self, *args: Tuple[Any, ...],
-                 **kwargs: Dict[str, Any]) -> None:
-        '''Initializing the user instance'''
-
-        if kwargs:
-            for k, v in kwargs.items():
-                setattr(self, k, v)
