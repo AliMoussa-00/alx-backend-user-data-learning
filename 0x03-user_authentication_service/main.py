@@ -102,7 +102,7 @@ def reset_password_token(email: str) -> str:
 
 def update_password(email: str, reset_token: str, new_password: str) -> None:
     '''test updating password'''
-    url = f'{BASE_URL}/update_password'
+    url = f'{BASE_URL}/reset_password'
     data = {
         'email': email,
         'reset_token': reset_token,
