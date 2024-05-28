@@ -79,13 +79,19 @@ class DB:
             None
         '''
 
-        user: User = self.find_user_by(id=user_id)
+        try:
+            user = self.find_user_by(id=user_id)
 
-        if user:
-            for k, v in kwargs.items():
-                if not hasattr(User, k):
-                    raise ValueError
+            if user:
+                if not kwargs:
+                    raise InvalidRequestError
 
-                setattr(user, k, v)
+                for k, v in kwargs.items():
+                    if not hasattr(User, k):
+                        raise ValueError
 
-            self._session.commit()
+                    setattr(user, k, v)
+
+                self._session.commit()
+        except (InvalidRequestError, NoResultFound):
+            pass
