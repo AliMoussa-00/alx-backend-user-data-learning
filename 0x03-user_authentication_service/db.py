@@ -53,7 +53,7 @@ class DB:
             user = None
         return user
 
-    def find_user_by(self, **kwargs: Dict[str, Any]) -> User:
+    def find_user_by(self, **kwargs) -> User:
         '''
         return the user with the given attribute
         parameters:
@@ -63,9 +63,6 @@ class DB:
         '''
         if not kwargs:
             raise InvalidRequestError
-        for k in kwargs.keys():
-            if not hasattr(User, k):
-                raise InvalidRequestError
 
         user = self._session.query(User).filter_by(**kwargs).first()
         if not user:
@@ -81,15 +78,14 @@ class DB:
         Return:
             None
         '''
-        try:
-            user: User = self.find_user_by(**{"id": user_id})
-            if user:
-                for k, v in kwargs.items():
-                    if k not in user.__dict__:
-                        raise ValueError
 
-                    setattr(user, k, v)
+        user: User = self.find_user_by(id=user_id)
 
-                self._session.commit()
-        except (NoResultFound, InvalidRequestError):
-            pass
+        if user:
+            for k, v in kwargs.items():
+                if not hasattr(User, k):
+                    raise ValueError
+
+                setattr(user, k, v)
+
+            self._session.commit()
